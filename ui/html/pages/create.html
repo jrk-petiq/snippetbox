@@ -1,30 +1,50 @@
-{{ define "title" }} Create a New Snippet {{ end }} {{ define "main" }}
-<form action="/snippet/create" method="post">
-  <div>
-    <label>Title:</label>
-    {{ with .Form.FieldErrors.title }}
-    <label for="" class="error">{{.}}</label>
-    {{ end }}
-    <input type="text" name="title" id="" value="{{.Form.Title}}" />
-  </div>
-  <div>
-    <label for="">Content:</label>
-    {{ with .Form.FieldErrors.content }}
-    <label for="" class="error">{{.}}</label>
-    {{ end }}
-    <textarea name="content">{{.Form.Content}}</textarea>
-  </div>
-  <div>
-    <label for="">Delete in:</label>
-    {{ with .Form.FieldErrors.expires }}
-     <label for="" class="error">{{.}}</label>
-    {{ end }}
-    <input type="radio" name="expires" value="365" {{ if (eq .Form.Expires 365) }}checked{{ end }}/> One Year
-    <input type="radio" name="expires" value="7" {{ if (eq .Form.Expires 7) }}checked{{ end }}/> One Week
-    <input type="radio" name="expires" value="1" {{ if (eq .Form.Expires 1) }}checked{{ end }}/> One Day
-  </div>
-  <div>
-    <input type="submit" value="Publish snippet" />
-  </div>
-</form>
+{{ define "title" }}Create a New Snippet{{ end }}
+{{ define "main" }}
+  <form action="/snippet/create" method="post">
+    <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}" />
+    <div>
+      <label>Title:</label>
+      {{ with .Form.FieldErrors.title }}
+        <label for="" class="error">{{ . }}</label>
+      {{ end }}
+      <input type="text" name="title" id="" value="{{ .Form.Title }}" />
+    </div>
+    <div>
+      <label for="">Content:</label>
+      {{ with .Form.FieldErrors.content }}
+        <label for="" class="error">{{ . }}</label>
+      {{ end }}
+      <textarea name="content">{{ .Form.Content }}</textarea>
+    </div>
+    <div>
+      <label for="">Delete in:</label>
+      {{ with .Form.FieldErrors.expires }}
+        <label for="" class="error">{{ . }}</label>
+      {{ end }}
+      <input
+        type="radio"
+        name="expires"
+        value="365"
+        {{ if (eq .Form.Expires 365) }}checked{{ end }}
+      />
+      One Year
+      <input
+        type="radio"
+        name="expires"
+        value="7"
+        {{ if (eq .Form.Expires 7) }}checked{{ end }}
+      />
+      One Week
+      <input
+        type="radio"
+        name="expires"
+        value="1"
+        {{ if (eq .Form.Expires 1) }}checked{{ end }}
+      />
+      One Day
+    </div>
+    <div>
+      <input type="submit" value="Publish snippet" />
+    </div>
+  </form>
 {{ end }}
